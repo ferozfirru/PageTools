@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/dnsbody_layout"
+    android:gravity="center_vertical"
+    >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:minHeight="100dp"
+        android:layout_weight="1"
+        android:background="@color/colorPrimaryDark"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:id="@+id/dnsll1">
+
+        <TextView
+            android:text="type"
+            android:layout_height="match_parent"
+            android:id="@+id/dnstype"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/white"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:textAlignment="center"
+            android:layout_alignRight="@+id/dnscountry"
+            android:layout_alignEnd="@+id/dnscountry" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="country"
+                android:layout_width="match_parent"
+                android:padding="8dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/dnscountry"
+                android:layout_weight="1"
+                android:layout_below="@+id/dnstype"
+                android:gravity="center"
+                android:textColor="@android:color/background_light"
+                android:background="@android:color/transparent" />
+
+            <TextView
+                android:text="ttl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:id="@+id/dnsttl"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical|center_horizontal"
+                android:textColor="@android:color/background_light"
+                android:background="@android:color/transparent"
+                android:paddingTop="8dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:text="record"
+        android:layout_height="match_parent"
+        android:id="@+id/dnsrecord"
+        android:layout_weight="1"
+        android:gravity="left|center_vertical"
+        android:layout_width="230dp"
+        android:textAlignment="viewStart"
+        android:paddingLeft="15dp" />
+</LinearLayout>
