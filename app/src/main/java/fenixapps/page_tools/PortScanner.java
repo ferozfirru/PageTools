@@ -1,6 +1,8 @@
 package fenixapps.page_tools;
 
+import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,15 +10,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
@@ -24,6 +31,7 @@ public class PortScanner extends Fragment {
     ArrayAdapter<String> arap;
     ArrayList<String> ars;
     ListView plst;
+    String host;
 
     String[] ss;
     @Override
@@ -37,38 +45,92 @@ public class PortScanner extends Fragment {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.activity_port_scanner, container, false);
 
+        final TextView urltext = (TextView) view.findViewById(R.id.portscanner_urltext);
+        Button gobutton = (Button) view.findViewById(R.id.portscanner_gobutton);
+
+        plst = (ListView) view.findViewById(R.id.port_listview);
+        ars = new ArrayList<String>();
+
+        gobutton.setOnClickListener(new View.OnClickListener() {
+
+
+            public void onClick(View v) {
+
+                InputMethodManager inputManager = (InputMethodManager)
+                        getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+
+
+                String Uurl = urltext.getText().toString();
+                Log.d("entered",Uurl);
+
+                if(!Uurl.isEmpty())
+                {
+                    if(Uurl.startsWith("http"))
+                    {
+                        try {
+                            URL hurl = new URL(Uurl);
+                            host = hurl.getHost();
+                        }catch (Exception e){
+
+                        }
+
+                    }else{
+                        host = Uurl;
+                    }
+
+                    Log.d("host",host);
+
+                    arap = new ArrayAdapter<String>(getActivity(), R.layout.portbody,R.id.postbodytext, ars);
+
+                    plst.setAdapter(arap);
+
+                    for (int ii = 0;ii < dports.length ; ii++) {
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                            new PortScanner.PortTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,String.valueOf(dports[ii]),host);
+                        }else{
+                            new PortScanner.PortTask().execute(String.valueOf(dports[ii]),host);
+                        }
+
+
+                            //            arap.notifyDataSetChanged();
+
+                            //            if(){
+                            //                ars.add("Port "+dports[ii]+" - Open");
+                            //                Log.d("XXXXX",ars.toString());
+                            //
+                            //            }else{
+                            //                ars.add("Port "+dports[ii]+" - Closed");
+                            //                Log.d("XXXXX",ars.toString());
+                            //
+                            //            }
+                    }
+
+
+                }else{
+                    Toast.makeText(getActivity().getApplicationContext(), "Enter Valid URL ",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
+
 //        setContentView(R.layout.activity_port_scanner);
         Log.d("TEST","ZERO");
 
 //        ArrayAdapter adap = new ArrayAdapter(getContext(),ars);
-        plst = (ListView) view.findViewById(R.id.port_listview);
-        ars = new ArrayList<String>();
 
-        String host = "103.11.85.212";
+
 //        new AsyncTask<String,Void,Boolean>.execute(dports[ii],host);
 
 
 
 
-        arap = new ArrayAdapter<String>(getActivity(), R.layout.portbody,R.id.postbodytext, ars);
 
-        plst.setAdapter(arap);
-
-        for (int ii = 0;ii < dports.length ; ii++) {
-
-            new PortScanner.PortTask().execute(String.valueOf(dports[ii]),"103.11.85.212");
-//            arap.notifyDataSetChanged();
-
-//            if(){
-//                ars.add("Port "+dports[ii]+" - Open");
-//                Log.d("XXXXX",ars.toString());
-//
-//            }else{
-//                ars.add("Port "+dports[ii]+" - Closed");
-//                Log.d("XXXXX",ars.toString());
-//
-//            }
-        }
 
 /*
         Thread t=new Thread(new Runnable() {
@@ -134,6 +196,7 @@ public class PortScanner extends Fragment {
         }
 @Override
         protected void onPreExecute() {
+            arap.clear();
         }
 @Override
         protected void onPostExecute(Boolean result) {

@@ -6,7 +6,6 @@ package fenixapps.page_tools;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,27 +18,14 @@ import android.view.animation.AlphaAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.StringTokenizer;
-
-import static java.lang.Boolean.TRUE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,7 +61,7 @@ public class MyFragment2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_my_fragment2, container, false);
+        View view = inflater.inflate(R.layout.fragment_dnschecker, container, false);
         progressBarHolder = (FrameLayout) view.findViewById(R.id.progressBarHolder2);
         b1 = (Button) view.findViewById(R.id.dnsbutton);
         edturl = (EditText) view.findViewById(R.id.urltextdns);
