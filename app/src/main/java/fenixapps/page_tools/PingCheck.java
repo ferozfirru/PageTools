@@ -124,6 +124,9 @@ public class PingCheck extends Fragment {
                         } catch (MalformedURLException e) {
                             e.printStackTrace();
                         }
+                    }else
+                    {
+
                     }
                     pingedit.setText(Uurl.toLowerCase());
 
@@ -134,10 +137,12 @@ public class PingCheck extends Fragment {
                     }catch (Exception e){
 
                     }
+                     int hops = 10;
+//                   String command = "ping -i 1 -Oc 5 " + Uurl;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                        mTask = new PingCheck.AsyncTaskRunner().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,Uurl);
+                        mTask = new PingCheck.AsyncTaskRunner().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"ping -i 1 -Oc "+hops+" " + Uurl);
                     }else{
-                        mTask = new PingCheck.AsyncTaskRunner().execute(Uurl);
+                        mTask = new PingCheck.AsyncTaskRunner().execute("ping -c "+hops+" " + Uurl);
                     }
                 }else{
                     Toast.makeText(getActivity().getApplicationContext(), "Enter Valid Host ip/Domain Name ",
@@ -171,8 +176,7 @@ public class PingCheck extends Fragment {
 
             String str = "";
             try {
-                Process process = Runtime.getRuntime().exec(
-                        "ping -i 1 -Oc 5 " + params[0]);
+                Process process = Runtime.getRuntime().exec(params[0]);
                 BufferedReader reader = new BufferedReader(new InputStreamReader(
                         process.getInputStream()));
                 Log.d("test",params[0]);
@@ -207,9 +211,9 @@ public class PingCheck extends Fragment {
             //txtv.setText(result);
 
             if(lstv.getCount()<1){
-                aradap.add("Seems Invalid Host IP Or Domain Name");
-                lstv.getChildAt(0).setBackgroundColor(Color.GRAY);
+                aradap.add("Seems Invalid Host IP Or Domain Name..");
                 aradap.notifyDataSetChanged();
+                //lstv.getChildAt(0).setBackgroundColor(Color.GRAY);
             }
 
         }
