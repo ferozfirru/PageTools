@@ -140,7 +140,9 @@ public class PingCheck extends Fragment {
                      int hops = 10;
 //                   String command = "ping -i 1 -Oc 5 " + Uurl;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                        mTask = new PingCheck.AsyncTaskRunner().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"ping -i 1 -Oc "+hops+" " + Uurl);
+//                        mTask = new PingCheck.AsyncTaskRunner().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"ping -i 1 -Oc "+hops+" " + Uurl);
+                        mTask = new PingCheck.AsyncTaskRunner().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"ping -c "+hops+" " + Uurl);
+
                     }else{
                         mTask = new PingCheck.AsyncTaskRunner().execute("ping -c "+hops+" " + Uurl);
                     }
